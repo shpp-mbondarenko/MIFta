@@ -11,6 +11,9 @@ import org.json.JSONObject;
  */
 public class JSONWeatherParser {
 
+    private static final String CURRENT_W = "current";
+    private static final String FORECAST_W = "forecast";
+
     public static OneDayWeather getOneDayWeather(String data) throws JSONException {
         OneDayWeather weather = new OneDayWeather();
 
@@ -35,14 +38,17 @@ public class JSONWeatherParser {
         JSONObject mainObj = getObject("main", jObj);
         weather.setHumidity(getFloat("humidity", mainObj));
         weather.setPressure(getInt("pressure", mainObj));
-        weather.setMaxTemp((int) (getFloat("temp_max", mainObj) - 273.15));
-        weather.setMinTemp((int) (getFloat("temp_min", mainObj) - 273.15));
+        weather.setMaxTemp((int) (getInt("temp_max", mainObj) - 273.15));
+        weather.setMinTemp((int) (getInt("temp_min", mainObj) - 273.15));
         weather.setTemp((int) (getFloat("temp", mainObj)- 273.15));
 
         // Wind
         JSONObject wObj = getObject("wind", jObj);
         weather.setWindSpeed(getFloat("speed", wObj));
         weather.setWindDirection(getFloat("deg", wObj));
+
+        //set Type
+        weather.setTypeOfWeather(CURRENT_W);
 
 
         return weather;
@@ -76,14 +82,15 @@ public class JSONWeatherParser {
             JSONObject oneDayTemperature = oneDayData.getJSONObject("temp");
             odw.setMaxTemp((int) (getFloat("max", oneDayTemperature) - 273.15));
             odw.setMinTemp((int) (getFloat("min", oneDayTemperature) - 273.15));
-            odw.setTemp((int) (getFloat("day", oneDayTemperature)- 273.15));
+            odw.setTemp((int) (getFloat("day", oneDayTemperature) - 273.15));
+            odw.setTypeOfWeather(FORECAST_W);
 
             // Send in the log what retrieved, be sure that i get something
             Log.d("myLog", "DATE " + i + " - " + odw.getDate());
-            Log.d("myLog", "ICON " + i + " - " + odw.getIcon());
-            Log.d("myLog", "DESC " + i + " - " + odw.getDescription());
-            Log.d("myLog", "DAY MIN " + i + " - " + odw.getMinTemp());
-            Log.d("myLog", "DAY MAX " + i + " - " + odw.getMaxTemp());
+//            Log.d("myLog", "ICON " + i + " - " + odw.getIcon());
+//            Log.d("myLog", "DESC " + i + " - " + odw.getDescription());
+//            Log.d("myLog", "DAY MIN " + i + " - " + odw.getMinTemp());
+//            Log.d("myLog", "DAY MAX " + i + " - " + odw.getMaxTemp());
 
             weather[i] = odw;
         }

@@ -3,4 +3,12 @@
     <string name="titleCalendar">Calendar</string>
     <string name="titleForecast">Forecast</string>
 
+    <array name="City">
+        <item>Kirovohrad,UA</item>
+        <item>Kiev,UA</item>
+        <item>Lviv,UA</item>
+        <item>Poltava,UA</item>
+        <item>Odessa,UA</item>
+    </array>
+
 </resources>

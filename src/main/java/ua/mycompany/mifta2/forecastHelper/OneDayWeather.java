@@ -1,10 +1,18 @@
 package ua.mycompany.mifta2.forecastHelper;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.Required;
+
 /**
  * Created by Maxim on 25.05.2016.
  */
-public class OneDayWeather {
+public class OneDayWeather extends RealmObject{
+    //it is current weather of forecast?
+    @Required
+    private String typeOfWeather;
 
+    @Ignore
     // time and date
     private String date;
 
@@ -131,5 +139,13 @@ public class OneDayWeather {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getTypeOfWeather() {
+        return typeOfWeather;
+    }
+
+    public void setTypeOfWeather(String typeOfWeather) {
+        this.typeOfWeather = typeOfWeather;
     }
 }
