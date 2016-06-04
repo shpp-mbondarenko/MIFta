@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/tvError"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bug"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_connection"
+        android:textSize="@dimen/font_size"
+        android:id="@+id/tvError"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center_vertical|center"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit App"
+        android:id="@+id/btnExitApp"
+        android:onClick="exitApp"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center_vertical|center"
+        android:layout_below="@+id/tvError"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

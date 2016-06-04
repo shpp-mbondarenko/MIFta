@@ -4,6 +4,7 @@ package ua.mycompany.mifta2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -95,14 +96,27 @@ public class ForecastActivity extends Activity {
         weather = new OneDayWeather();
         forecastWeather = new OneDayWeather[7];
 
+        RealmResults<OneDayWeather> checkDB =
+                activityRealm.where(OneDayWeather.class).equalTo(WEATHER_TYPE, CURRENT_W).findAll();
+        Log.d("myLog", "RESULTS - " + checkDB.isEmpty() + " size - " + checkDB.size());
 
+        //Important. At first launch: If we have Internet connection - download data from internet.
+        //If don't have Internet connection, but have data in REALM DB - retrieve data from REALM DB.
+        //If application is launching at first time and we dont have internet connection and don't have data in
+        //DB - go to errorActivity.
         if (isNetworkAvailable()){
             task = new JSONWeatherTask();
-            task.execute(new String[]{city});
-        } else {
+            task.execute(city);
+            Log.d("myLog", "RESULTS EXECUTE DOWNLOADING");
+        } else if (!(checkDB.isEmpty()) /*&& !(isNetworkAvailable())*/){
             loadWeatherData(activityRealm);
             buildCurrentWeather();
             buildWeatherForecast();
+            Log.d("myLog", "RESULTS is not EMPTY");
+        } else {
+            Log.d("myLog", "GO to ERROR_A");
+            Intent goToERR = new Intent(getApplicationContext(), ErrorActivity.class);
+            startActivity(goToERR);
         }
     }
 
@@ -136,9 +150,6 @@ public class ForecastActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-            Log.d("myLog", "------------- " + weather.getIcon() + " Is DONE");
 
             saveCurrentWeatherData(asyncRealm, weather);
             saveForecastWeatherData(asyncRealm, forecastWeather);
@@ -241,14 +252,12 @@ public class ForecastActivity extends Activity {
             }
         });
 
+        realm.beginTransaction();
         for (int i = 0; i < 7; i++) {
-            Log.d("myLog", "CHECK date" + wthr[i].getDate());
-            realm.beginTransaction();
             OneDayWeather fw = realm.copyToRealm(wthr[i]);
             fw.setDate(wthr[i].getDate());
-            Log.d("myLog", "CHECK date 2" + fw.getDate());
-            realm.commitTransaction();
         }
+        realm.commitTransaction();
     }
 
     private void loadWeatherData(Realm realm){
@@ -345,7 +354,7 @@ public class ForecastActivity extends Activity {
                     forecastBottomLL.removeAllViews();
                     if (isNetworkAvailable()) {
                         task = new JSONWeatherTask();
-                        task.execute(new String[]{city});
+                        task.execute(city);
                     } else {
                         loadWeatherData(activityRealm);
                         buildCurrentWeather();
