@@ -32,6 +32,8 @@ public class MainActivity extends TabActivity {
         tabSpec.setContent(new Intent(this, CalendarActivity.class));
         tabHost.addTab(tabSpec);
 
+        //вкладка будет выбрана по умолчанию
+        tabHost.setCurrentTabByTag("calendarTab");
 
     }
 

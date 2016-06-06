@@ -20,6 +20,7 @@
         <activity android:name=".CalendarActivity"/>
         <activity android:name=".ForecastActivity"/>
         <activity android:name=".ErrorActivity"/>
+        <activity android:name=".DayTask"/>
     </application>
 
 </manifest>

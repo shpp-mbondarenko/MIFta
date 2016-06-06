@@ -194,9 +194,7 @@ public class ForecastActivity extends Activity {
             oneForecast.setOrientation(LinearLayout.VERTICAL);
             oneForecast.setMinimumHeight(100);
             oneForecast.setBackgroundDrawable(getResources().getDrawable(R.drawable.border_for_linear_layout));
-            Log.d("myLog", "Time i = " + i);
-            Log.d("time", "DATE = "+oneDayWeather.getDate());
-            Log.d("time", "DATE ICON = "+oneDayWeather.getIcon());
+
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date myDate = new Date();
