@@ -270,8 +270,6 @@ public class ForecastActivity extends Activity {
         forecastWeather = new OneDayWeather[7];
         int b = 0;
         for (OneDayWeather odw : forecastRes){
-            Log.d("myLog","---RES "+forecastRes.get(b).getDate());
-            Log.d("myLog","---RES 2 "+forecastRes.get(b).getIcon());
             forecastWeather[b] = forecastRes.get(b);
             b++;
         }

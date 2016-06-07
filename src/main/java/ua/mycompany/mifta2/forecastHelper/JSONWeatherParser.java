@@ -1,7 +1,5 @@
 package ua.mycompany.mifta2.forecastHelper;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +84,7 @@ public class JSONWeatherParser {
             odw.setTypeOfWeather(FORECAST_W);
 
             // Send in the log what retrieved, be sure that i get something
-            Log.d("myLog", "DATE " + i + " - " + odw.getDate());
+//            Log.d("myLog", "DATE " + i + " - " + odw.getDate());
 //            Log.d("myLog", "ICON " + i + " - " + odw.getIcon());
 //            Log.d("myLog", "DESC " + i + " - " + odw.getDescription());
 //            Log.d("myLog", "DAY MIN " + i + " - " + odw.getMinTemp());

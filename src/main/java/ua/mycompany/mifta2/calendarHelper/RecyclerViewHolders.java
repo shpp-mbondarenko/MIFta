@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ua.mycompany.mifta2.DayTask;
 import ua.mycompany.mifta2.R;
@@ -20,6 +19,8 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
     public ImageView ivImageOfDay;
     private Context context;
 
+    final private String DATE = "date";
+
     public RecyclerViewHolders(View itemView, Context context) {
         super(itemView);
         this.context = context;
@@ -30,8 +31,8 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(view.getContext(), "Clicked Day Position = " + getPosition(), Toast.LENGTH_SHORT).show();
         Intent dayTask = new Intent(context, DayTask.class);
+        dayTask.putExtra(DATE, tvDay.getText());
         context.startActivity(dayTask);
     }
 }

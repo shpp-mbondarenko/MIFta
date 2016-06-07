@@ -14,4 +14,35 @@
         <item>Odessa,UA</item>
     </array>
 
+    <array name="Year">
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+    </array>
+
+    <array name="Month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </array>
+
+    <array name="CalendarEventType">
+        <item>Event</item>
+        <item>Meeting</item>
+        <item>Make Call</item>
+        <item>Shopping</item>
+        <item>Treatment</item>
+    </array>
+
 </resources>

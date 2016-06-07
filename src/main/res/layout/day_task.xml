@@ -12,21 +12,71 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:id="@+id/tvDate"
-            android:textSize="@dimen/font_size"/>
+            android:paddingLeft="@dimen/current_left_font_margin"
+            android:textSize="@dimen/tvDataSize"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5">
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:id="@+id/llTaskList">
 
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5">
+        android:layout_height="228dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:id="@+id/spinnerEventType"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/current_left_font_margin"
+            android:text="Add new Task:"
+            android:id="@+id/tv1"
+            android:gravity="bottom" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:id="@+id/etTask"
+            android:background="#ffffff"
+            android:autoText="false"
+            android:gravity="top|left" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notification"
+                android:id="@+id/cbNotif"
+                android:checked="false" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add task"
+                android:id="@+id/btnAddTask" />
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
