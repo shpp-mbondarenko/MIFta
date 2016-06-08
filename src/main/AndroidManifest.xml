@@ -21,6 +21,15 @@
         <activity android:name=".ForecastActivity"/>
         <activity android:name=".ErrorActivity"/>
         <activity android:name=".DayTask"/>
+
+        <receiver
+            android:name=".calendarHelper.AlarmReceiver"
+            android:process=":remote" >
+        </receiver>
+
+        <service
+            android:name=".calendarHelper.NotificationService"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -5,6 +5,6 @@
     <color name="colorAccent">#187617</color>
 
     <color name="colorOneDayForecast">#efce79</color>
-    <color name="colorMainActivity">#f5f9d0</color>
+    <color name="colorMainActivity">#ffffff</color>
     <color name="colorTextPrimary">#000000</color>
 </resources>

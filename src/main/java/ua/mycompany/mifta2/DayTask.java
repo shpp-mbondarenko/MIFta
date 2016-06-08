@@ -1,28 +1,42 @@
 package ua.mycompany.mifta2;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import ua.mycompany.mifta2.calendarHelper.AlarmReceiver;
 import ua.mycompany.mifta2.calendarHelper.Task;
 
 /**
  * Created by Maxim on 05.06.2016.
  */
 public class DayTask extends Activity {
-
+    final String LOG_TAG = "myLog";
     final private String DATE = "date";
     String date;
     String[] eventTypeArray;
@@ -30,11 +44,17 @@ public class DayTask extends Activity {
 
     LinearLayout llTaskList;
     Button btnAddTask;
+    Button btnSetTime;
     EditText etTask;
     TextView tvDate;
+    CheckBox cbNotification;
     Spinner spinnerEventType;
 
     Realm realm;
+    //Time
+    final int DIALOG_ID = 0;
+    int alarmMinute;
+    int alarmHour;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,19 +75,30 @@ public class DayTask extends Activity {
         spinnerEventType = (Spinner) findViewById(R.id.spinnerEventType);
         etTask = (EditText) findViewById(R.id.etTask);
         btnAddTask = (Button) findViewById(R.id.btnAddTask);
+        btnSetTime = (Button) findViewById(R.id.btnSetTime);
+        cbNotification = (CheckBox) findViewById(R.id.cbNotification);
         llTaskList = (LinearLayout) findViewById(R.id.llTaskList);
 
-        btnAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.btnAddTask) {
-                    addTask(date, eventType, etTask.getText().toString());
-                    etTask.setText(null);
-                }
-            }
-        });
+        btnAddTask.setOnClickListener(onClickListener);
+        btnSetTime.setOnClickListener(onClickListener);
 
         tvDate.setText(date);
+//        cbNotification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.cbNotification:
+//                        if (cbNotification.isChecked()) {
+//                            cbNotification.setChecked(false);
+//                        } else {
+//                            cbNotification.setChecked(true);
+//                        }
+//                        Log.d("myLog", "pressed " + cbNotification.isChecked());
+//                        break;
+//                }
+//            }
+//        });
+
 
         //Setup adapter
         eventTypeArray = getResources().getStringArray(R.array.CalendarEventType);
@@ -87,6 +118,77 @@ public class DayTask extends Activity {
             }
         });
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btnAddTask:
+                    addTask(date, eventType, etTask.getText().toString());
+                    etTask.setText(null);
+                    sendAlarm();
+
+
+                    break;
+                case R.id.btnSetTime:
+                    showDialog(DIALOG_ID);
+                    break;
+            }
+
+        }
+    };
+
+    private void sendAlarm() {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
+        Date alarmDate = null;
+        try {
+            alarmDate = format.parse(date);
+            Log.d(LOG_TAG, alarmDate.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(alarmDate);
+
+        Log.d(LOG_TAG, "before " + cal.toString());
+
+        cal.set(Calendar.HOUR_OF_DAY, alarmHour);
+        cal.set(Calendar.MINUTE, alarmMinute);
+
+        Log.d(LOG_TAG, "after " + cal.toString());
+
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra(DATE, date);
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Setup periodic alarm every 5 seconds
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+//        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 0, pIntent);
+        alarm.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),pIntent);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == DIALOG_ID){
+            Calendar cal = Calendar.getInstance();
+            return new TimePickerDialog(DayTask.this,onTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
+        }else {
+            return null;
+        }
+    }
+
+    protected TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            alarmHour = hourOfDay;
+            alarmMinute = minute;
+            Toast.makeText(getApplicationContext(), alarmHour + ":" + alarmMinute, Toast.LENGTH_LONG).show();
+        }
+    };
 
     private void addTask(String date, String eventType, String eventDescription) {
         if (!eventDescription.matches("")) {

@@ -29,7 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="228dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorMainActivity"
         android:orientation="vertical">
 
         <LinearLayout
@@ -68,8 +68,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Notification"
-                android:id="@+id/cbNotif"
-                android:checked="false" />
+                android:id="@+id/cbNotification"
+                android:checked="false"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set time"
+                android:id="@+id/btnSetTime" />
 
             <Button
                 android:layout_width="wrap_content"
