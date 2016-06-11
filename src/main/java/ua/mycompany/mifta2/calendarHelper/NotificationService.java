@@ -2,12 +2,14 @@ package ua.mycompany.mifta2.calendarHelper;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import ua.mycompany.mifta2.DayTask;
 import ua.mycompany.mifta2.R;
 
 /**
@@ -15,7 +17,11 @@ import ua.mycompany.mifta2.R;
  */
 public class NotificationService extends IntentService {
 
-    final private String DATE = "date";
+    final String LOG_TAG = "myLog";
+    final String DATE = "date";
+    final String EVENT_TYPE = "event_type";
+    final String TASK = "task";
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -34,15 +40,23 @@ public class NotificationService extends IntentService {
 
         Log.d("myLog", "----" + intent.getStringExtra(DATE));
         Log.d("myLog", "InHandleIntent");
+
+        Intent goToTaskActivity = new Intent(this, DayTask.class);
+        goToTaskActivity.putExtra(DATE, intent.getStringExtra(DATE));
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, goToTaskActivity, 0);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.three)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!" + intent.getStringExtra(DATE))
-                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                        .setContentTitle(intent.getStringExtra(EVENT_TYPE))
+                        .setContentText(intent.getStringExtra(DATE) + " - " + intent.getStringExtra(TASK))
+                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                        .setContentIntent(pIntent);
+
+        // Hide the notification after its selected
+        mBuilder.setAutoCancel(true);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-        mNotificationManager.notify(55, mBuilder.build());
+        mNotificationManager.notify((int) System.currentTimeMillis(), mBuilder.build());
     }
 }

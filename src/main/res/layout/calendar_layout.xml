@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text=">"
             android:id="@+id/btnNextYear"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
     </LinearLayout>
     <LinearLayout

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -187,12 +188,13 @@ public class ForecastActivity extends Activity {
         for (int i = 0; i < 7; i++) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT);
-            params.setMargins(0, 0, 2, 0);
+            params.setMargins(2, 2, 2, 2);
             OneDayWeather oneDayWeather = forecastWeather[i];
             LinearLayout oneForecast = new LinearLayout(getApplicationContext());
             oneForecast.setLayoutParams(params);
             oneForecast.setOrientation(LinearLayout.VERTICAL);
             oneForecast.setMinimumHeight(100);
+
             oneForecast.setBackgroundDrawable(getResources().getDrawable(R.drawable.border_for_linear_layout));
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
@@ -219,6 +221,13 @@ public class ForecastActivity extends Activity {
             TextView tvTemp = new TextView(getApplicationContext());
             tvTemp.setText("Temp " + oneDayWeather.getMinTemp() + "/" + oneDayWeather.getMaxTemp() + "°C");
             tvTemp.setTextColor(Color.BLACK);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                oneForecast.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                tvDate.setPadding(20, 0, 0, 0);
+                tvTemp.setPadding(20, 0, 0, 0);
+            }
+
             oneForecast.addView(tvTemp);
 
             forecastBottomLL.addView(oneForecast);

@@ -6,6 +6,7 @@
     <dimen name="current_font_margin">1dp</dimen>
     <dimen name="current_left_font_margin">5dp</dimen>
     <dimen name="tvDataSize">60dp</dimen>
-    <dimen name="tvCalendarDateSize">6dp</dimen>
+    <dimen name="tvCalendarDateSize">10dp</dimen>
+    <dimen name="paddingEditText">15dp</dimen>
 
 </resources>

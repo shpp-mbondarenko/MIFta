@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/forecastParent"
-    android:baselineAligned="false">
+    android:id="@+id/forecastParent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -72,17 +71,8 @@
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
                 android:paddingLeft="@dimen/current_left_font_margin"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select city"
-                android:paddingLeft="@dimen/current_left_font_margin"
-                android:layout_gravity="left" />
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </Spinner>
+
+
 
 
         </LinearLayout>
@@ -92,7 +82,7 @@
             android:orientation="vertical" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:weightSum="1"
-            android:layout_weight="3">
+            android:layout_weight="2">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,10 +92,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Update"
-                android:id="@+id/btnUpdate"
-                android:layout_gravity="left"
-                android:gravity="left" />
-
+                android:id="@+id/btnUpdate" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select city"
+                android:paddingLeft="@dimen/current_left_font_margin"
+                android:layout_gravity="left" />
+            <Spinner
+                android:id="@+id/spinner"
+                android:scrollbarSize="@dimen/font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </Spinner>
 
         </LinearLayout>
 
@@ -121,12 +120,11 @@
         android:layout_height="fill_parent"
         android:background="@color/colorAccent"
         android:weightSum="1"
-        android:layout_weight="3">
-
+        android:layout_weight="4">
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/forecastHorizontalScrollView">
+            android:id="@+id/forecastScrollView">
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"

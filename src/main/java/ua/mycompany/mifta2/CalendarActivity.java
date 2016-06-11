@@ -48,7 +48,7 @@ public class CalendarActivity extends Activity {
         List<ItemObject> rowListItem = getAllItemList();
 
         findViewObjects();
-        //how many rows (4)
+        //how many rows (7)
         gLayout = new GridLayoutManager(CalendarActivity.this, 7);
 
         rView = (RecyclerView)findViewById(R.id.recycler_view);
@@ -157,9 +157,9 @@ public class CalendarActivity extends Activity {
         SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yy");
 
         SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
-        Log.d("myLog", "------ START MONTH "+fmt.format(curMonth));
+        Log.d("myLog", "------ START MONTH " + fmt.format(curMonth));
         SimpleDateFormat sdf = new SimpleDateFormat("EE");
-        Log.d("myLog", "------ FIRST WEEK "+sdf.format(curMonth));
+        Log.d("myLog", "------ FIRST WEEK " + sdf.format(curMonth));
 
         //Find beginning of week
         Date tmpDate = curMonth;
@@ -168,17 +168,24 @@ public class CalendarActivity extends Activity {
         while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY){
             tmpDate = addDays(tmpDate, -1);
             tmpCal.setTime(tmpDate);
-//            allItems.add(0, null);
-            allItems.add(0, new ItemObject("", 4));
+            allItems.add(0, new ItemObject(fmtOut.format(tmpDate), R.drawable.three, 1));
         }
         Log.d("myLog", "------ AFTER FIND MON " + fmt.format(curMonth));
-//        allItems.add(0,new ItemObject("", 4));
-        allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three));
+        allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 0));
         while (curMonth.before(newMonth)) {
             curMonth = addDays(curMonth, 1);
-            allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three));
+            allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 0));
         }
-        Log.d("myLog", "------ END MONTH "+fmt.format(curMonth));
+
+        //To finish last week
+        tmpCal.setTime(curMonth);
+        while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY){
+            curMonth = addDays(curMonth, 1);
+            tmpCal.setTime(curMonth);
+            allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 1));
+        }
+        Log.d("myLog", "------ END MONTH " + fmt.format(curMonth));
+
         return allItems;
     }
 

@@ -2,6 +2,7 @@ package ua.mycompany.mifta2.calendarHelper;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public void onBindViewHolder(RecyclerViewHolders holder, int position) {
         holder.tvDay.setText(itemList.get(position).getDate());
         holder.ivImageOfDay.setImageResource(itemList.get(position).getImageOfDay());
+        if (itemList.get(position).getOffDay() == 1)
+            holder.tvDay.setBackgroundColor(Color.GRAY);
     }
 
     @Override

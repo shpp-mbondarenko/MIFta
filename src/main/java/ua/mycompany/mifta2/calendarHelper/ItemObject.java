@@ -6,11 +6,13 @@ package ua.mycompany.mifta2.calendarHelper;
 public class ItemObject {
     private String date;
     private int imageOfDay;
+    private int offDay;
 
 
-    public ItemObject(String date, int imageOfDay) {
+    public ItemObject(String date, int imageOfDay, int offDay) {
         this.date = date;
         this.imageOfDay = imageOfDay;
+        this.offDay = offDay;
     }
 
 
@@ -28,5 +30,13 @@ public class ItemObject {
 
     public void setImageOfDay(int imageOfDay) {
         this.imageOfDay = imageOfDay;
+    }
+
+    public int getOffDay() {
+        return offDay;
+    }
+
+    public void setOffDay(int offDay) {
+        this.offDay = offDay;
     }
 }

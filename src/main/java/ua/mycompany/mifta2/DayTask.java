@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,25 +37,31 @@ import ua.mycompany.mifta2.calendarHelper.Task;
  * Created by Maxim on 05.06.2016.
  */
 public class DayTask extends Activity {
+    final String SAVED_NUM = "saved_num";
     final String LOG_TAG = "myLog";
-    final private String DATE = "date";
+    final String DATE = "date";
+    final String EVENT_TYPE = "event_type";
+    final String TASK = "task";
     String date;
+    String task;
     String[] eventTypeArray;
-    String eventType;
 
+    String eventType;
     LinearLayout llTaskList;
     Button btnAddTask;
     Button btnSetTime;
     EditText etTask;
     TextView tvDate;
     CheckBox cbNotification;
-    Spinner spinnerEventType;
 
+    Spinner spinnerEventType;
     Realm realm;
     //Time
     final int DIALOG_ID = 0;
     int alarmMinute;
+
     int alarmHour;
+    SharedPreferences sPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,23 +90,6 @@ public class DayTask extends Activity {
         btnSetTime.setOnClickListener(onClickListener);
 
         tvDate.setText(date);
-//        cbNotification.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switch (v.getId()) {
-//                    case R.id.cbNotification:
-//                        if (cbNotification.isChecked()) {
-//                            cbNotification.setChecked(false);
-//                        } else {
-//                            cbNotification.setChecked(true);
-//                        }
-//                        Log.d("myLog", "pressed " + cbNotification.isChecked());
-//                        break;
-//                }
-//            }
-//        });
-
-
         //Setup adapter
         eventTypeArray = getResources().getStringArray(R.array.CalendarEventType);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(DayTask.this,
@@ -124,9 +114,11 @@ public class DayTask extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAddTask:
-                    addTask(date, eventType, etTask.getText().toString());
+                    task = etTask.getText().toString();
+                    addTask(date, eventType, task);
                     etTask.setText(null);
-                    sendAlarm();
+                    if (cbNotification.isChecked())
+                        sendAlarm();
 
 
                     break;
@@ -139,6 +131,9 @@ public class DayTask extends Activity {
     };
 
     private void sendAlarm() {
+        int counter;
+        sPref = getPreferences(MODE_PRIVATE);
+        counter = sPref.getInt(SAVED_NUM, 0);
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
         Date alarmDate = null;
@@ -160,15 +155,24 @@ public class DayTask extends Activity {
 
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.setAction(String.valueOf(counter));
+        counter++;
         intent.putExtra(DATE, date);
+        intent.putExtra(EVENT_TYPE, eventType);
+        intent.putExtra(TASK, task);
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // Setup periodic alarm every 5 seconds
-        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+                intent, 0);
+        // Setup alarm
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-//        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 0, pIntent);
         alarm.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),pIntent);
+
+        sPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putInt(SAVED_NUM, counter);
+        ed.apply();
+
+        Log.d(LOG_TAG, "Intent Action - " + intent.getAction());
     }
 
     @Override
@@ -176,7 +180,7 @@ public class DayTask extends Activity {
         if (id == DIALOG_ID){
             Calendar cal = Calendar.getInstance();
             return new TimePickerDialog(DayTask.this,onTimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        }else {
+        } else {
             return null;
         }
     }
