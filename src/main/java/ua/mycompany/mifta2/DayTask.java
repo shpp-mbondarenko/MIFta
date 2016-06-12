@@ -221,6 +221,7 @@ public class DayTask extends Activity {
         for (Task t : tasks) {
             TextView tv = new TextView(getApplicationContext());
             tv.setText(t.getEventType() + ": " + t.getEventDescription() );
+            tv.setTextColor(getResources().getColor(R.color.colorTextPrimary));
             llTaskList.addView(tv);
         }
     }

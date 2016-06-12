@@ -1,6 +1,8 @@
 package ua.mycompany.mifta2;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +17,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import ua.mycompany.mifta2.calendarHelper.ItemObject;
 import ua.mycompany.mifta2.calendarHelper.RecyclerViewAdapter;
+import ua.mycompany.mifta2.calendarHelper.Task;
 
 /**
  * Created by Maxim on 24.05.2016.
@@ -24,6 +30,7 @@ import ua.mycompany.mifta2.calendarHelper.RecyclerViewAdapter;
 public class CalendarActivity extends Activity {
 
     private static final int BASE_YEAR = 2014;
+    final String DATE = "date";
     private GridLayoutManager gLayout;
     RecyclerView rView;
     Button btnNextYear;
@@ -32,22 +39,32 @@ public class CalendarActivity extends Activity {
     Button btnPrevMonth;
     TextView tvYear;
     TextView  tvMonth;
+    ProgressDialog progressDialog;
 
+    String date;
     String[] listOfMonth;
     int[] listOfYears;
 
     int monthIndicator = 5;
     int yearIndicator = 2;
 
+    int todoDay = R.drawable.index;
+    int freeDay = 1;
+
+    Realm realm;
+
+    List<ItemObject> rowListItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_layout);
         Log.d("myLog", "onCreate CalendarActivity");
-
-        List<ItemObject> rowListItem = getAllItemList();
+        rowListItem = new ArrayList<ItemObject>();
+        MakeList ml = new MakeList();
 
         findViewObjects();
+        ml.execute();
         //how many rows (7)
         gLayout = new GridLayoutManager(CalendarActivity.this, 7);
 
@@ -55,8 +72,6 @@ public class CalendarActivity extends Activity {
         rView.setHasFixedSize(true);
         rView.setLayoutManager(gLayout);
 
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(CalendarActivity.this, rowListItem);
-        rView.setAdapter(rcAdapter);
     }
     //Finding all Views on screen
     private void findViewObjects() {
@@ -126,70 +141,13 @@ public class CalendarActivity extends Activity {
     };
 
     private void refreshCalendar() {
-
-        List<ItemObject> rowListItem = getAllItemList();
+        rowListItem.clear();
+        MakeList ml = new MakeList();
+        ml.execute();
         rView.removeAllViews();
         rView.setHasFixedSize(true);
         rView.setLayoutManager(gLayout);
-
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(CalendarActivity.this, rowListItem);
-        rView.setAdapter(rcAdapter);
-
     }
-
-    private List<ItemObject> getAllItemList(){
-
-        int baseYear = BASE_YEAR;
-        int baseMonth = 0;
-        baseYear += yearIndicator;
-        baseMonth += monthIndicator;
-        Date curMonth;
-        Date newMonth;
-
-        List<ItemObject> allItems = new ArrayList<ItemObject>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, baseYear);
-        calendar.set(Calendar.MONTH, baseMonth);
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        newMonth = calendar.getTime();
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        curMonth = calendar.getTime();
-        SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yy");
-
-        SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
-        Log.d("myLog", "------ START MONTH " + fmt.format(curMonth));
-        SimpleDateFormat sdf = new SimpleDateFormat("EE");
-        Log.d("myLog", "------ FIRST WEEK " + sdf.format(curMonth));
-
-        //Find beginning of week
-        Date tmpDate = curMonth;
-        Calendar tmpCal = Calendar.getInstance();
-        tmpCal.setTime(tmpDate);
-        while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY){
-            tmpDate = addDays(tmpDate, -1);
-            tmpCal.setTime(tmpDate);
-            allItems.add(0, new ItemObject(fmtOut.format(tmpDate), R.drawable.three, 1));
-        }
-        Log.d("myLog", "------ AFTER FIND MON " + fmt.format(curMonth));
-        allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 0));
-        while (curMonth.before(newMonth)) {
-            curMonth = addDays(curMonth, 1);
-            allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 0));
-        }
-
-        //To finish last week
-        tmpCal.setTime(curMonth);
-        while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY){
-            curMonth = addDays(curMonth, 1);
-            tmpCal.setTime(curMonth);
-            allItems.add(new ItemObject(fmtOut.format(curMonth), R.drawable.three, 1));
-        }
-        Log.d("myLog", "------ END MONTH " + fmt.format(curMonth));
-
-        return allItems;
-    }
-
-
 
     private Date addDays(Date date, int days) {
         Log.d("myLog", "------ IN ADDdays ");
@@ -200,5 +158,103 @@ public class CalendarActivity extends Activity {
     }
 
 
+
+    class MakeList extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(CalendarActivity.this,  R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(("Please wait..."));
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            int baseYear = BASE_YEAR;
+            int baseMonth = 0;
+            baseYear += yearIndicator;
+            baseMonth += monthIndicator;
+            Date curMonth;
+            Date newMonth;
+            RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext()).build();
+            realm = Realm.getInstance(realmConfig);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, baseYear);
+            calendar.set(Calendar.MONTH, baseMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            newMonth = calendar.getTime();
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+            curMonth = calendar.getTime();
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yy");
+
+            SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+            Log.d("myLog", "------ START MONTH " + fmt.format(curMonth));
+            SimpleDateFormat sdf = new SimpleDateFormat("EE");
+            Log.d("myLog", "------ FIRST WEEK " + sdf.format(curMonth));
+
+            //Find beginning of week
+            Date tmpDate = curMonth;
+            Calendar tmpCal = Calendar.getInstance();
+            tmpCal.setTime(tmpDate);
+
+            while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY){
+                tmpDate = addDays(tmpDate, -1);
+                tmpCal.setTime(tmpDate);
+                rowListItem.add(addItemObject(fmtOut.format(tmpDate), 1));
+            }
+            rowListItem.add(addItemObject(fmtOut.format(curMonth), 0));
+            while (curMonth.before(newMonth)) {
+                curMonth = addDays(curMonth, 1);
+                rowListItem.add(addItemObject(fmtOut.format(curMonth), 0));
+            }
+
+            //To finish last week
+            tmpCal.setTime(curMonth);
+            while (tmpCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY){
+                curMonth = addDays(curMonth, 1);
+                tmpCal.setTime(curMonth);
+                rowListItem.add(addItemObject(fmtOut.format(curMonth), 1));
+            }
+
+
+            return null;
+        }
+
+        // Create new object of ItemObject.
+        // d - date
+        // flag - 0 is day in current month. 1 is day that not in current month (paint in GRAY color)
+        private ItemObject addItemObject(String d, int flag) {
+            RealmResults<Task> res = realm.where(Task.class).equalTo(DATE, d).findAll();
+            if (res.isEmpty()) {
+                return new ItemObject(d, freeDay, flag);
+            } else {
+                return new ItemObject(d, todoDay, flag);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(CalendarActivity.this, rowListItem);
+            rView.setAdapter(rcAdapter);
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            progressDialog.dismiss();
+                        }
+                    }, 0);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        rowListItem.clear();
+        MakeList ml = new MakeList();
+        ml.execute();
+    }
 
 }

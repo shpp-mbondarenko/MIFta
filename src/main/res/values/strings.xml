@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MifTA2</string>
+    <string name="app_name">M.i.f.TA</string>
     <string name="titleCalendar">Calendar</string>
     <string name="titleForecast">Forecast</string>
     <string name="error_connection">Sorry, but you need to have internet connection to launch your app!</string>

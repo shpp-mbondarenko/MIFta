@@ -2,7 +2,6 @@ package ua.mycompany.mifta2;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -54,8 +53,6 @@ public class ForecastActivity extends Activity {
     Spinner spinner;
 
     ImageView ivCurrentWeatherImage;
-
-    ProgressDialog progressDialog;
 
     String city;
 
@@ -128,10 +125,7 @@ public class ForecastActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(ForecastActivity.this,  R.style.AppTheme_Dark_Dialog);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(("Please wait..."));
-            progressDialog.show();
+
         }
 
         @Override
@@ -171,14 +165,6 @@ public class ForecastActivity extends Activity {
         protected void onPostExecute(OneDayWeather weather) {
             super.onPostExecute(weather);
             buildWeatherForecast();
-
-
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            progressDialog.dismiss();
-                        }
-                    }, 100);
         }
     }
 

@@ -47,7 +47,7 @@ public class NotificationService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.three)
+                        .setSmallIcon(R.drawable.index)
                         .setContentTitle(intent.getStringExtra(EVENT_TYPE))
                         .setContentText(intent.getStringExtra(DATE) + " - " + intent.getStringExtra(TASK))
                         .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)

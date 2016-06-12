@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:contentDescription="@string/contDesc"
-            android:src="@drawable/three"
             android:scaleType="centerCrop"
             android:layout_below="@+id/tvDay"
             android:layout_alignParentLeft="true"
