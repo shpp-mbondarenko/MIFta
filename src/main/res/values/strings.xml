@@ -5,6 +5,9 @@
     <string name="error_connection">Sorry, but you need to have internet connection to launch your app!</string>
     <string name="day">Day</string>
     <string name="contDesc">Description</string>
+    <string name="forecast">Weather forecast</string>
+    <string name="calendar">Calendar</string>
+    <string name="please_wait">Please wait...</string>
 
     <array name="City">
         <item>Kirovohrad,UA</item>

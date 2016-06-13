@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2016"
+            android:paddingLeft="@dimen/font_padding"
             android:id="@+id/tvYear"
             android:layout_weight="100"
             android:textAlignment="center" />
@@ -49,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jan"
+            android:paddingLeft="@dimen/font_padding"
             android:id="@+id/tvMonth"
             android:layout_weight="100"
             android:textAlignment="center" />

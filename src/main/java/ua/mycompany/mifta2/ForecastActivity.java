@@ -37,40 +37,40 @@ import ua.mycompany.mifta2.forecastHelper.WeatherHttpClient;
 
 public class ForecastActivity extends Activity {
 
-    LinearLayout forecastBottomLL;
-    LinearLayout forecastParent;
+    private  LinearLayout forecastBottomLL;
+    private LinearLayout forecastParent;
 
-    TextView tvCityName;
-    TextView tvCurrentTemp;
-    TextView tvCurrentWeatherCondition;
-    TextView tvCurrentWeatherDescription;
-    TextView tvCurrentPressure;
-    TextView tvCurrentHumidity;
-    TextView tvCurrentMinMaxTemp;
+    private TextView tvCityName;
+    private TextView tvCurrentTemp;
+    private TextView tvCurrentWeatherCondition;
+    private TextView tvCurrentWeatherDescription;
+    private TextView tvCurrentPressure;
+    private TextView tvCurrentHumidity;
+    private TextView tvCurrentMinMaxTemp;
 
-    Button btnUpdate;
+    private Button btnUpdate;
 
-    Spinner spinner;
+    private Spinner spinner;
 
-    ImageView ivCurrentWeatherImage;
+    private ImageView ivCurrentWeatherImage;
 
-    String city;
+    private String city;
 
-    String[] listOfСities;
+    private String[] listOfСities;
 
-    JSONWeatherTask task;
+    private JSONWeatherTask task;
 
-    Realm activityRealm;
-    Realm asyncRealm;
+    private Realm activityRealm;
+    private Realm asyncRealm;
 
     //saving data if have no internet
     private static final String CURRENT_W = "current";
     private static final String FORECAST_W = "forecast";
     private final String WEATHER_TYPE = "typeOfWeather";
-    OneDayWeather weather;
-    OneDayWeather[] forecastWeather;
-    String currentDayWeatherData;
-    String forecastWeatherData;
+    private OneDayWeather weather;
+    private OneDayWeather[] forecastWeather;
+    private String currentDayWeatherData;
+    private String forecastWeatherData;
     private RealmConfiguration realmConfig;
 
 
@@ -125,7 +125,6 @@ public class ForecastActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
@@ -212,6 +211,13 @@ public class ForecastActivity extends Activity {
                         LinearLayout.LayoutParams.WRAP_CONTENT));
                 tvDate.setPadding(20, 0, 0, 0);
                 tvTemp.setPadding(20, 0, 0, 0);
+                tvDate.setTextSize((int) getResources().getDimension(R.dimen.font_size_forecast));
+                tvTemp.setTextSize((int) getResources().getDimension(R.dimen.font_size_forecast));
+            } else {
+                tvDate.setPadding((int) getResources().getDimension(R.dimen.font_padding), 0, 0, 0);
+                tvTemp.setPadding((int) getResources().getDimension(R.dimen.font_padding), 0, 0, 0);
+                tvDate.setTextSize((int) getResources().getDimension(R.dimen.font_size_forecast));
+                tvTemp.setTextSize((int) getResources().getDimension(R.dimen.font_size_forecast));
             }
 
             oneForecast.addView(tvTemp);

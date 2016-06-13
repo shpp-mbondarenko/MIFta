@@ -19,67 +19,76 @@
                 android:text="CITY"
                 android:textStyle="bold"
                 android:id="@+id/tvCityName"
+                android:padding="@dimen/font_padding"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"
+                android:paddingLeft="@dimen/font_padding"
                 android:paddingBottom="40dp" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="10 C"
                 android:id="@+id/tvCurrentTemp"
+                android:padding="@dimen/font_padding"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Rain"
+                android:padding="@dimen/font_padding"
                 android:id="@+id/tvCurrentWeatherCondition"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Heavy Rain"
+                android:padding="@dimen/font_padding"
                 android:id="@+id/tvCurrentWeatherDescription"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="1000 PA"
                 android:id="@+id/tvCurrentPressure"
+                android:padding="@dimen/font_padding"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="91 Humidity"
                 android:id="@+id/tvCurrentHumidity"
+                android:padding="@dimen/font_padding"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="TEMP MIN/MAX"
                 android:id="@+id/tvCurrentMinMaxTemp"
+                android:padding="@dimen/font_padding"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select city"
-                android:paddingLeft="@dimen/current_left_font_margin"
+                android:padding="@dimen/font_padding"
+                android:paddingLeft="@dimen/font_padding"
                 android:layout_gravity="left" />
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
+                android:padding="@dimen/font_padding"
                 android:layout_height="wrap_content">
             </Spinner>
 

@@ -21,7 +21,7 @@
                 android:id="@+id/tvCityName"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"
+                android:paddingLeft="@dimen/font_padding"
                 android:paddingBottom="40dp" />
             <TextView
                 android:layout_width="fill_parent"
@@ -30,7 +30,7 @@
                 android:id="@+id/tvCurrentTemp"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:id="@+id/tvCurrentWeatherCondition"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:id="@+id/tvCurrentWeatherDescription"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:id="@+id/tvCurrentPressure"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:id="@+id/tvCurrentHumidity"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:id="@+id/tvCurrentMinMaxTemp"
                 android:paddingTop="@dimen/current_font_margin"
                 android:textSize="@dimen/font_size"
-                android:paddingLeft="@dimen/current_left_font_margin"/>
+                android:paddingLeft="@dimen/font_padding"/>
 
 
 
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select city"
-                android:paddingLeft="@dimen/current_left_font_margin"
+                android:paddingLeft="@dimen/font_padding"
                 android:layout_gravity="left" />
             <Spinner
                 android:id="@+id/spinner"

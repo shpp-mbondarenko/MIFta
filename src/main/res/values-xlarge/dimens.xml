@@ -2,12 +2,12 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="font_size">23sp</dimen>
-    <dimen name="current_font_margin">1dp</dimen>
-    <dimen name="font_padding">5dp</dimen>
+    <dimen name="font_size">33sp</dimen>
+    <dimen name="font_size_forecast">15sp</dimen>
+    <dimen name="current_font_margin">4dp</dimen>
+    <dimen name="font_padding">15dp</dimen>
     <dimen name="tvDataSize">60dp</dimen>
-    <dimen name="tvCalendarDateSize">20dp</dimen>
-    <dimen name="font_size_forecast">5sp</dimen>
+    <dimen name="tvCalendarDateSize">30dp</dimen>
     <dimen name="paddingEditText">15dp</dimen>
 
 </resources>

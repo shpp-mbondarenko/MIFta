@@ -36,10 +36,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerViewHolders holder, int position) {
-        holder.tvDay.setText(itemList.get(position).getDate());
+        String date = itemList.get(position).getDate().substring(0, 2);
+        holder.saveDate(itemList.get(position).getDate());
+        holder.tvDay.setText(date);
         holder.ivImageOfDay.setImageResource(itemList.get(position).getImageOfDay());
         if (itemList.get(position).getOffDay() == 1)
             holder.tvDay.setBackgroundColor(Color.GRAY);
+        if (itemList.get(position).getOffDay() == 2)
+            holder.tvDay.setBackgroundColor(Color.YELLOW);
     }
 
     @Override

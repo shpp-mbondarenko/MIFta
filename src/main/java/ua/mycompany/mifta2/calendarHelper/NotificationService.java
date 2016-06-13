@@ -38,10 +38,11 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.d("myLog", "----" + intent.getStringExtra(DATE));
+        Log.d("myLog", "---- " + intent.getStringExtra(DATE));
         Log.d("myLog", "InHandleIntent");
 
         Intent goToTaskActivity = new Intent(this, DayTask.class);
+        goToTaskActivity.setAction(String.valueOf(System.currentTimeMillis()));
         goToTaskActivity.putExtra(DATE, intent.getStringExtra(DATE));
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, goToTaskActivity, 0);
 

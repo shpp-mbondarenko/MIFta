@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:id="@+id/tvDate"
-            android:paddingLeft="@dimen/current_left_font_margin"
+            android:paddingLeft="@dimen/font_padding"
             android:textSize="@dimen/tvDataSize"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/current_left_font_margin"
+                    android:paddingLeft="@dimen/font_padding"
                     android:text="Add new Task:"
                     android:id="@+id/tv1"
                     android:gravity="bottom" />

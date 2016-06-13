@@ -18,6 +18,7 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
     public TextView tvDay;
     public ImageView ivImageOfDay;
     private Context context;
+    private String date;
 
     final private String DATE = "date";
 
@@ -32,7 +33,11 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
     @Override
     public void onClick(View view) {
         Intent dayTask = new Intent(context, DayTask.class);
-        dayTask.putExtra(DATE, tvDay.getText());
+        dayTask.putExtra(DATE, date);
         context.startActivity(dayTask);
+    }
+
+    public void saveDate(String date) {
+        this.date = date;
     }
 }
